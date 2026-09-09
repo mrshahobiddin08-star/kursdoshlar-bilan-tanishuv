@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shahobiddin bilan Tanishuv Viktorinasi</title>
-    <!-- Tailwind CSS Streamlit dizayni uchun -->
+    <!-- Barqaror Tailwind CSS CDN -->
     <script src="https://jsdelivr.net"></script>
     <style>
         body {
@@ -42,7 +42,7 @@
 </head>
 <body class="min-h-screen flex flex-col items-center justify-between p-4 md:p-8">
 
-    <!-- ✅ TELEGRAM BOT SOZLAMALARI JOYLANDI -->
+    <!-- ✅ TELEGRAM BOT SOZLAMALARI -->
     <script>
         const TELEGRAM_BOT_TOKEN = "8850573618:AAFHnfum5nKAEUL-JPvcQX7Emp_raHKj-K0"; 
         const TELEGRAM_CHAT_ID = "6937805047";
@@ -57,8 +57,8 @@
                 <div class="w-3 h-8 bg-[#ff4b4b] rounded-full"></div>
                 <h1 class="text-xl md:text-2xl font-bold tracking-tight">Streamlit Quiz App v2.0</h1>
             </div>
-            <!-- Progress (O'yin jarayoni) -->
-            <div id="quiz-progress-text" class="text-xs font-mono text-gray-400 hidden">Savol: 1/5</div>
+            <!-- Progress -->
+            <div id="quiz-progress-text" class="text-xs font-mono text-gray-400 hidden">Savol: 1/6</div>
         </div>
 
         <!-- Progress Bar -->
@@ -67,7 +67,7 @@
         </div>
 
         <!-- 1-BOSQICH: KIRISH VA PAROL -->
-        <div id="auth-card" class="st-card rounded-xl p-6 md:p-8 shadow-2xl transition-all duration-300">
+        <div id="auth-card" class="st-card rounded-xl p-6 md:p-8 shadow-2xl transition-all duration-300 block">
             <div class="space-y-4">
                 <h2 class="text-xl md:text-2xl font-semibold text-[#ff4b4b]">Assalomu alaykum, aziz Kursdoshim! 👋</h2>
                 <p class="text-gray-300 leading-relaxed text-sm md:text-base">
@@ -94,7 +94,7 @@
         <!-- 2-BOSQICH: DINAMIK SAVOLLAR EKRAI -->
         <div id="quiz-card" class="st-card rounded-xl p-6 md:p-8 shadow-2xl transition-all duration-300 hidden min-h-[300px] flex flex-col justify-between">
             <div id="question-content" class="space-y-6">
-                <!-- Savollar shu yerda JavaScript orqali joylanadi -->
+                <!-- JavaScript orqali joylanadi -->
             </div>
             <div class="flex justify-end pt-6 border-t border-[#262730] mt-6">
                 <button id="next-btn" onclick="nextQuestion()" class="bg-[#ff4b4b] hover:bg-[#e04343] text-white px-6 py-2.5 rounded-lg font-medium transition-all hidden cursor-pointer">Keyingisi ➡️</button>
@@ -106,8 +106,7 @@
             <h2 class="text-3xl font-extrabold text-green-400">O'yin Yakunlandi! 🎉</h2>
             <p class="text-gray-300 text-sm md:text-base">Ma'lumotlar tahlil qilinmoqda va matematik hisob-kitob bajarilmoqda...</p>
             
-            <!-- Foiz hisoblash animatsiyasi -->
-            <div class="relative flex items-center justify-center inner-circle">
+            <div class="relative flex items-center justify-center py-4">
                 <div class="text-5xl font-black text-[#ff4b4b]" id="match-percent">0%</div>
             </div>
             
@@ -133,56 +132,18 @@
         Dasturchi: mr.shahobiddin5 | csu.university © 2026
     </div>
 
-    <!-- SCRIPT (O'YIN MANTIQI VA TELEGRAM BOT LOGIKASI) -->
     <script>
         let currentStep = 0;
         let userName = "";
-        let answers = {
-            interest: "",
-            food: "",
-            color: "",
-            song: "",
-            birthday: "",
-            dream: ""
-        };
+        let answers = { interest: "", food: "", color: "", song: "", birthday: "", dream: "" };
 
         const quizData = [
-            {
-                id: "interest",
-                title: "Sizni eng ko'p nima qiziqtiradi? 💡",
-                type: "buttons",
-                options: ["Dasturlash / IT", "Biznes / Startap", "San'at / Musiqa", "Sport / Sayohat"]
-            },
-            {
-                id: "food",
-                title: "Yoqtirgan taomingiz qaysi? 🍲",
-                type: "buttons",
-                options: ["Osh (Palov)", "Shashlik / Kabob", "Fast-food (Lavash/Pitsa)", "Suyuq taomlar"]
-            },
-            {
-                id: "color",
-                title: "Sizga eng yoqadigan rang? 🎨",
-                type: "buttons",
-                options: ["To'q qora / Kulrang", "Yorqin ko'k / Havorang", "Oq / Toza ranglar", "Yashil / Tabiat"]
-            },
-            {
-                id: "song",
-                title: "Qanday janrdagi qo'shiqlarni sevasiz? 🎵",
-                type: "text",
-                placeholder: "Yoqtirgan qo'shig'ingiz yoki janringiz..."
-            },
-            {
-                id: "birthday",
-                title: "Tug'ilgan kuningiz qachon? 🎂",
-                type: "date",
-                subtitle: "(Shahobiddinga bildirishnoma boradi!)"
-            },
-            {
-                id: "dream",
-                title: "Kelajakdagi eng katta orzuingiz nima? 🌟",
-                type: "textarea",
-                placeholder: "Kelajakda kim bo'lmoqchisiz yoki qanday maqsadingiz bor..."
-            }
+            { id: "interest", title: "Sizni eng ko'p nima qiziqtiradi? 💡", type: "buttons", options: ["Dasturlash / IT", "Biznes / Startap", "San'at / Musiqa", "Sport / Sayohat"] },
+            { id: "food", title: "Yoqtirgan taomingiz qaysi? 🍲", type: "buttons", options: ["Osh (Palov)", "Shashlik / Kabob", "Fast-food (Lavash/Pitsa)", "Suyuq taomlar"] },
+            { id: "color", title: "Sizga eng yoqadigan rang? 🎨", type: "buttons", options: ["To'q qora / Kulrang", "Yorqin ko'k / Havorang", "Oq / Toza ranglar", "Yashil / Tabiat"] },
+            { id: "song", title: "Qanday janrdagi qo'shiqlarni sevasiz? 🎵", type: "text", placeholder: "Yoqtirgan qo'shig'ingiz yoki janringiz..." },
+            { id: "birthday", title: "Tug'ilgan kuningiz qachon? 🎂", type: "date", subtitle: "(Shahobiddinga bildirishnoma boradi!)" },
+            { id: "dream", title: "Kelajakdagi eng katta orzuingiz nima? 🌟", type: "textarea", placeholder: "Kelajakda kim bo'lmoqchisiz yoki qanday maqsadingiz bor..." }
         ];
 
         function checkPassword() {
@@ -196,3 +157,19 @@
 
             if (inputPass === '2026' && inputName !== "") {
                 userName = inputName;
+                errorText.classList.add('hidden');
+                authCard.style.display = 'none';
+                quizCard.classList.remove('hidden');
+                progText.classList.remove('hidden');
+                progBar.classList.remove('hidden');
+                loadQuestion();
+            } else {
+                errorText.classList.remove('hidden');
+            }
+        }
+
+        function loadQuestion() {
+            const content = document.getElementById('question-content');
+            const nextBtn = document.getElementById('next-btn');
+            const currentQuiz = quizData[currentStep];
+            
