@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shahobiddin bilan Tanishuv Viktorinasi</title>
-    <!-- Barqaror Bootstrap CSS -->
+    <!-- Eng yengil va barqaror Bootstrap CSS -->
     <link href="https://jsdelivr.net" rel="stylesheet">
     <style>
         body {
@@ -104,43 +104,35 @@
         <div class="d-flex align-items-center justify-content-between border-bottom border-secondary pb-3 mb-4">
             <div class="d-flex align-items-center gap-2">
                 <div class="st-line"></div>
-                <h1 class="h4 m-0 fw-bold">Streamlit Quiz App v3.5</h1>
+                <h1 class="h4 m-0 fw-bold">Streamlit Quiz App v4.0</h1>
             </div>
-            <div id="quiz-progress-text" class="text-muted small d-none">Savol: 1/6</div>
+            <div id="quiz-progress-text" class="text-muted small">Savol: 1/7</div>
         </div>
 
         <!-- PROGRESS BAR -->
-        <div id="progress-container" class="progress mb-4 d-none">
+        <div id="progress-container" class="progress mb-4">
             <div id="progress-line" class="progress-bar" style="width: 0%"></div>
         </div>
 
-        <!-- 1-BOSQICH: KIRISH (FAQART PAROL) -->
-        <div id="auth-card" class="st-card">
-            <h2 class="h4 text-danger fw-bold mb-3">Assalomu alaykum, aziz Kursdoshim! 👋</h2>
-            <p class="text-secondary-emphasis mb-4">
-                Men <strong class="text-white">Hamroqulov Shahobiddin</strong> sizlarning hammalaringiz bilan yaqinroqdan tanishish va iloji boricha sizlarga yaqinroq bo‘lish uchun ushbu saytni yaratdim. O‘ylaymanki, mehnatni qadrlagan holda ushbu interaktiv viktorinamizga javob berasiz.
-            </p>
-            
-            <div class="mb-4">
-                <label class="form-label small text-muted text-uppercase fw-bold mb-2">Guruh parolini kiriting (Parol: 2026)</label>
-                <input type="password" id="group-password" placeholder="Parolni yozing..." class="form-control st-input text-center fw-bold fs-5 mb-3">
-                <button onclick="checkPassword()" class="btn st-btn-main" type="button">O'yinni Boshlash 🚀</button>
-                <div id="auth-error" class="text-danger small mt-2 d-none">❌ Parol noto‘g‘ri! Qayta urinib ko‘ring.</div>
+        <!-- ASOSIY VIKTORINA KARTASI -->
+        <div id="quiz-card" class="st-card">
+            <div id="question-content">
+                <!-- STARTING CARD -->
+                <h2 class="h4 text-danger fw-bold mb-3">Assalomu alaykum, aziz Kursdoshim! 👋</h2>
+                <p class="text-secondary-emphasis mb-4">
+                    Men <strong class="text-white">Hamroqulov Shahobiddin</strong> sizlarning hammalaringiz bilan yaqinroqdan tanishish va iloji boricha sizlarga yaqinroq bo‘lish uchun ushbu saytni yaratdim.
+                </p>
+                <button onclick="startQuiz()" class="btn st-btn-main">O'yinni Boshlash 🚀</button>
             </div>
-        </div>
-
-        <!-- 2-BOSQICH: SAVOLLAR -->
-        <div id="quiz-card" class="st-card d-none">
-            <div id="question-content"></div>
-            <div class="d-flex justify-content-end border-top border-secondary pt-3 mt-4">
+            <div class="d-flex justify-content-end border-top border-secondary pt-3 mt-4 d-none" id="next-btn-container">
                 <button id="next-btn" onclick="nextQuestion()" class="btn st-btn-main d-none" style="width: auto;">Keyingisi ➡️</button>
             </div>
         </div>
 
-        <!-- 3-BOSQICH: FINAL -->
+        <!-- FINAL KARTASI -->
         <div id="final-card" class="st-card text-center d-none">
             <h2 class="h2 text-success fw-bold mb-3">O'yin Yakunlandi! 🎉</h2>
-            <p class="text-muted">Ma'lumotlar uzatilmoqda...</p>
+            <p class="text-muted">Ma'lumotlar Shahobiddinga uzatilmoqda...</p>
             
             <div class="my-4">
                 <div class="display-3 fw-bold text-danger" id="match-percent">0%</div>
@@ -159,7 +151,7 @@
 
     <script>
         let currentStep = 0;
-        let userName = "";
+        let isStarted = false;
         let answers = { name: "", interest: "", food: "", color: "", song: "", birthday: "", dream: "" };
 
         const quizData = [
@@ -172,20 +164,10 @@
             { id: "dream", title: "Kelajakdagi eng katta orzuingiz nima? 🌟", type: "textarea", placeholder: "Kelajakdagi maqsadlaringiz haqida..." }
         ];
 
-        function checkPassword() {
-            const inputPass = document.getElementById('group-password').value.trim();
-            const errorText = document.getElementById('auth-error');
-
-            if (inputPass === '2026') {
-                errorText.classList.add('d-none');
-                document.getElementById('auth-card').classList.add('d-none');
-                document.getElementById('quiz-card').classList.remove('d-none');
-                document.getElementById('quiz-progress-text').classList.remove('d-none');
-                document.getElementById('progress-container').classList.remove('d-none');
-                loadQuestion();
-            } else {
-                errorText.classList.remove('d-none');
-            }
+        function startQuiz() {
+            isStarted = true;
+            document.getElementById('next-btn-container').classList.remove('d-none');
+            loadQuestion();
         }
 
         function loadQuestion() {
@@ -213,3 +195,28 @@
             } else if (currentQuiz.type === "date") {
                 html += `<input type="date" id="input-${currentQuiz.id}" onchange="handleInput('${currentQuiz.id}')" class="form-control st-input w-100">`;
             } else if (currentQuiz.type === "textarea") {
+                html += `<textarea id="input-${currentQuiz.id}" rows="3" oninput="handleInput('${currentQuiz.id}')" placeholder="${currentQuiz.placeholder}" class="form-control st-input w-100"></textarea>`;
+            }
+
+            content.innerHTML = html;
+        }
+
+        function selectOption(key, value, btn) {
+            answers[key] = value;
+            const buttons = btn.parentElement.querySelectorAll('.st-btn-option');
+            buttons.forEach(b => b.classList.remove('st-btn-active'));
+            btn.classList.add('st-btn-active');
+            document.getElementById('next-btn').classList.remove('d-none');
+            setTimeout(() => { nextQuestion(); }, 300);
+        }
+
+        function handleInput(key) {
+            const val = document.getElementById(`input-${key}`).value;
+            answers[key] = val;
+            const nextBtn = document.getElementById('next-btn');
+            if(val.trim() !== "") { nextBtn.classList.remove('d-none'); } 
+            else { nextBtn.classList.add('d-none'); }
+        }
+
+        function nextQuestion() {
+            if (currentStep < quizData.length - 1) {
