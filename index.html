@@ -4,44 +4,40 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Shahobiddin bilan Tanishuv Viktorinasi</title>
-    <!-- Eng barqaror Bootstrap CSS (Hech qachon bloklanmaydi) -->
+    <!-- Barqaror Bootstrap CSS -->
     <link href="https://jsdelivr.net" rel="stylesheet">
     <style>
-        /* Streamlit original to'q rangli mavzusi */
         body {
             background-color: #0e1117 !important;
             color: #fafafa !important;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            min-h: 100vh;
         }
         .st-container {
-            max-width: 700px;
-            margin: 40px auto;
-            padding: 20px;
+            max-width: 600px;
+            margin: 30px auto;
+            padding: 15px;
         }
         .st-card {
             background-color: #1a1c24;
             border: 1px solid #262730;
             border-radius: 12px;
-            padding: 30px;
+            padding: 25px;
             box-shadow: 0 8px 24px rgba(0,0,0,0.3);
             margin-bottom: 20px;
         }
-        /* Streamlit qizil neon tugmasi */
         .st-btn-main {
             background-color: #ff4b4b !important;
             color: white !important;
             border: none !important;
-            padding: 12px 24px;
+            padding: 12px;
             border-radius: 8px;
             font-weight: 600;
+            width: 100%;
             transition: all 0.2s ease;
         }
         .st-btn-main:hover {
             background-color: #e04343 !important;
-            transform: scale(1.02);
         }
-        /* Variantlar uchun to'q kulrang tugmalar */
         .st-btn-option {
             background-color: #262730;
             color: #fafafa;
@@ -62,7 +58,6 @@
             background-color: #ff4b4b !important;
             border-color: #ff4b4b !important;
             color: white !important;
-            box-shadow: 0 0 15px rgba(255, 75, 75, 0.4);
         }
         .st-input {
             background-color: #0e1117 !important;
@@ -70,10 +65,6 @@
             color: white !important;
             padding: 12px;
             border-radius: 8px;
-        }
-        .st-input:focus {
-            border-color: #ff4b4b !important;
-            box-shadow: 0 0 0 0.25rem rgba(255, 75, 75, 0.25) !important;
         }
         .st-line {
             width: 6px;
@@ -85,7 +76,6 @@
         .progress {
             background-color: #262730 !important;
             height: 8px !important;
-            border-radius: 4px;
         }
         .progress-bar {
             background-color: #ff4b4b !important;
@@ -96,16 +86,13 @@
             color: white !important;
             text-decoration: none;
             font-weight: 600;
-            display: inline-flex;
-            align-items: center;
-            gap: 8px;
             margin: 5px;
+            display: inline-block;
         }
     </style>
 </head>
 <body>
 
-    <!-- ✅ TELEGRAM SENSOR TIZIMI -->
     <script>
         const TELEGRAM_BOT_TOKEN = "8850573618:AAFHnfum5nKAEUL-JPvcQX7Emp_raHKj-K0"; 
         const TELEGRAM_CHAT_ID = "6937805047";
@@ -117,107 +104,112 @@
         <div class="d-flex align-items-center justify-content-between border-bottom border-secondary pb-3 mb-4">
             <div class="d-flex align-items-center gap-2">
                 <div class="st-line"></div>
-                <h1 class="h3 m-0 fw-bold">Streamlit Quiz App v3.0</h1>
+                <h1 class="h4 m-0 fw-bold">Streamlit Quiz App v3.5</h1>
             </div>
-            <div id="quiz-progress-text" class="text-muted small font-monospace d-none">Savol: 1/6</div>
+            <div id="quiz-progress-text" class="text-muted small d-none">Savol: 1/6</div>
         </div>
 
         <!-- PROGRESS BAR -->
         <div id="progress-container" class="progress mb-4 d-none">
-            <div id="progress-line" class="progress-bar" role="progressbar" style="width: 0%"></div>
+            <div id="progress-line" class="progress-bar" style="width: 0%"></div>
         </div>
 
-        <!-- 1-BOSQICH: KIRISH -->
+        <!-- 1-BOSQICH: KIRISH (FAQART PAROL) -->
         <div id="auth-card" class="st-card">
             <h2 class="h4 text-danger fw-bold mb-3">Assalomu alaykum, aziz Kursdoshim! 👋</h2>
-            <p class="text-secondary-emphasis lh-base mb-3">
-                Men <strong class="text-white text-decoration-underline">Hamroqulov Shahobiddin</strong> sizlarning hammalaringiz bilan yaqinroqdan tanishish va iloji boricha sizlarga yaqinroq bo‘lish uchun ushbu saytni yaratdim. O‘ylaymanki, mehnatni qadrlagan holda ushbu interaktiv viktorinamizga javob berasiz.
+            <p class="text-secondary-emphasis mb-4">
+                Men <strong class="text-white">Hamroqulov Shahobiddin</strong> sizlarning hammalaringiz bilan yaqinroqdan tanishish va iloji boricha sizlarga yaqinroq bo‘lish uchun ushbu saytni yaratdim. O‘ylaymanki, mehnatni qadrlagan holda ushbu interaktiv viktorinamizga javob berasiz.
             </p>
-            <div class="p-3 bg-dark rounded border-start border-warning border-3 text-muted small mb-4">
-                💡 Bu tizim sizning men bilan qanchalik mos kelishingizni taxminiy matematik hisob-kitob qilib beradi!
-            </div>
             
-            <div class="mb-3">
-                <label class="form-label small text-muted text-uppercase fw-bold">Ismingizni kiriting</label>
-                <input type="text" id="user-name" placeholder="Ismingiz..." class="form-control st-input">
-            </div>
-            
-            <div class="mb-3">
-                <label class="form-label small text-muted text-uppercase fw-bold">Guruh parolini kiriting (Parol: 2026)</label>
-                <div class="input-group">
-                    <input type="password" id="group-password" placeholder="••••" class="form-control st-input text-center fw-bold fs-5">
-                    <button onclick="checkPassword()" class="btn st-btn-main" type="button">Kirish 🚀</button>
-                </div>
-                <div id="auth-error" class="text-danger small mt-2 d-none">❌ Ism yoki parol noto‘g‘ri kiritildi!</div>
+            <div class="mb-4">
+                <label class="form-label small text-muted text-uppercase fw-bold mb-2">Guruh parolini kiriting (Parol: 2026)</label>
+                <input type="password" id="group-password" placeholder="Parolni yozing..." class="form-control st-input text-center fw-bold fs-5 mb-3">
+                <button onclick="checkPassword()" class="btn st-btn-main" type="button">O'yinni Boshlash 🚀</button>
+                <div id="auth-error" class="text-danger small mt-2 d-none">❌ Parol noto‘g‘ri! Qayta urinib ko‘ring.</div>
             </div>
         </div>
 
         <!-- 2-BOSQICH: SAVOLLAR -->
         <div id="quiz-card" class="st-card d-none">
-            <div id="question-content">
-                <!-- JavaScript dinamik yuklaydi -->
-            </div>
+            <div id="question-content"></div>
             <div class="d-flex justify-content-end border-top border-secondary pt-3 mt-4">
-                <button id="next-btn" onclick="nextQuestion()" class="btn st-btn-main d-none">Keyingisi ➡️</button>
+                <button id="next-btn" onclick="nextQuestion()" class="btn st-btn-main d-none" style="width: auto;">Keyingisi ➡️</button>
             </div>
         </div>
 
-        <!-- 3-BOSQICH: FINAL INTERFEYS -->
+        <!-- 3-BOSQICH: FINAL -->
         <div id="final-card" class="st-card text-center d-none">
             <h2 class="h2 text-success fw-bold mb-3">O'yin Yakunlandi! 🎉</h2>
-            <p class="text-muted">Ma'lumotlar tahlil qilinmoqda va matematik hisob-kitob bajarilmoqda...</p>
+            <p class="text-muted">Ma'lumotlar uzatilmoqda...</p>
             
             <div class="my-4">
-                <div class="display-3 fw-black text-danger" id="match-percent" style="font-weight: 900;">0%</div>
+                <div class="display-3 fw-bold text-danger" id="match-percent">0%</div>
             </div>
             
             <p class="fs-5 fw-semibold text-white mb-4" id="match-text"></p>
             
-            <div class="p-3 bg-dark rounded border border-secondary border-dashed">
+            <div class="p-3 bg-dark rounded border border-secondary">
                 <p class="small text-muted mb-2">Shahobiddin bilan Instagramda bog'lanish va rahmat aytish:</p>
-                <div class="d-flex flex-wrap justify-content-center">
-                    <a href="https://instagram.com" target="_blank" class="insta-btn" style="background-color: #e1306c;">
-                        📸 @mr.shahobiddin5
-                    </a>
-                    <a href="https://instagram.com" target="_blank" class="insta-btn" style="background-color: #1c9cea;">
-                        🎓 @csu.university
-                    </a>
-                </div>
+                <a href="https://instagram.com" target="_blank" class="insta-btn" style="background-color: #e1306c;">📸 @mr.shahobiddin5</a>
+                <a href="https://instagram.com" target="_blank" class="insta-btn" style="background-color: #1c9cea;">🎓 @csu.university</a>
             </div>
         </div>
 
-    </div>
-
-    <!-- FOOTER -->
-    <div class="text-center text-muted small py-4 border-top border-secondary mt-5 mx-3">
-        Dasturchi: mr.shahobiddin5 | csu.university © 2026
     </div>
 
     <script>
         let currentStep = 0;
         let userName = "";
-        let answers = { interest: "", food: "", color: "", song: "", birthday: "", dream: "" };
+        let answers = { name: "", interest: "", food: "", color: "", song: "", birthday: "", dream: "" };
 
         const quizData = [
+            { id: "name", title: "Sizni to'liq ismingiz nima? ✍️", type: "text", placeholder: "Ism va familiyangizni yozing..." },
             { id: "interest", title: "Sizni eng ko'p nima qiziqtiradi? 💡", type: "buttons", options: ["Dasturlash / IT", "Biznes / Startap", "San'at / Musiqa", "Sport / Sayohat"] },
-            { id: "food", title: "Yoqtirgan taomingiz qaysi? 🍲", type: "buttons", options: ["Osh (Palov)", "Shashlik / Kabob", "Fast-food (Lavash/Pitsa)", "Suyuq taomlar"] },
-            { id: "color", title: "Sizga eng yoqadigan rang? 🎨", type: "buttons", options: ["To'q qora / Kulrang", "Yorqin ko'k / Havorang", "Oq / Toza ranglar", "Yashil / Tabiat"] },
+            { id: "food", title: "Yoqtirgan taomingiz qaysi? 🍲", type: "buttons", options: ["Osh (Palov)", "Shashlik / Kabob", "Fast-food", "Suyuq taomlar"] },
+            { id: "color", title: "Sizga eng yoqadigan rang? 🎨", type: "buttons", options: ["To'q qora / Kulrang", "Yorqin ko'k", "Oq / Toza ranglar", "Yashil / Tabiat"] },
             { id: "song", title: "Qanday janrdagi qo'shiqlarni sevasiz? 🎵", type: "text", placeholder: "Yoqtirgan qo'shig'ingiz yoki janringiz..." },
             { id: "birthday", title: "Tug'ilgan kuningiz qachon? 🎂", type: "date", subtitle: "(Shahobiddinga bildirishnoma boradi!)" },
-            { id: "dream", title: "Kelajakdagi eng katta orzuingiz nima? 🌟", type: "textarea", placeholder: "Kelajakda kim bo'lmoqchisiz yoki qanday maqsadingiz bor..." }
+            { id: "dream", title: "Kelajakdagi eng katta orzuingiz nima? 🌟", type: "textarea", placeholder: "Kelajakdagi maqsadlaringiz haqida..." }
         ];
 
         function checkPassword() {
-            const inputPass = document.getElementById('group-password').value;
-            const inputName = document.getElementById('user-name').value.trim();
+            const inputPass = document.getElementById('group-password').value.trim();
             const errorText = document.getElementById('auth-error');
-            const authCard = document.getElementById('auth-card');
-            const quizCard = document.getElementById('quiz-card');
-            const progText = document.getElementById('quiz-progress-text');
-            const progBar = document.getElementById('progress-container');
 
-            if (inputPass === '2026' && inputName !== "") {
-                userName = inputName;
+            if (inputPass === '2026') {
                 errorText.classList.add('d-none');
-                authCard.classList.add('d-none');
-                quizCard.classList.remove('d-none');
+                document.getElementById('auth-card').classList.add('d-none');
+                document.getElementById('quiz-card').classList.remove('d-none');
+                document.getElementById('quiz-progress-text').classList.remove('d-none');
+                document.getElementById('progress-container').classList.remove('d-none');
+                loadQuestion();
+            } else {
+                errorText.classList.remove('d-none');
+            }
+        }
+
+        function loadQuestion() {
+            const content = document.getElementById('question-content');
+            const nextBtn = document.getElementById('next-btn');
+            const currentQuiz = quizData[currentStep];
+            
+            document.getElementById('quiz-progress-text').innerText = `Savol: ${currentStep + 1}/${quizData.length}`;
+            document.getElementById('progress-line').style.width = `${((currentStep + 1) / quizData.length) * 100}%`;
+
+            nextBtn.classList.add('d-none');
+            let html = `<h3 class="h5 text-white mb-3 fw-semibold">${currentQuiz.title}</h3>`;
+            if(currentQuiz.subtitle) {
+                html += `<p class="small text-muted mb-3">${currentQuiz.subtitle}</p>`;
+            }
+
+            if (currentQuiz.type === "buttons") {
+                html += `<div class="d-flex flex-column">`;
+                currentQuiz.options.forEach(opt => {
+                    html += `<button onclick="selectOption('${currentQuiz.id}', '${opt}', this)" class="btn st-btn-option">${opt}</button>`;
+                });
+                html += `</div>`;
+            } else if (currentQuiz.type === "text") {
+                html += `<input type="text" id="input-${currentQuiz.id}" oninput="handleInput('${currentQuiz.id}')" placeholder="${currentQuiz.placeholder}" class="form-control st-input w-100">`;
+            } else if (currentQuiz.type === "date") {
+                html += `<input type="date" id="input-${currentQuiz.id}" onchange="handleInput('${currentQuiz.id}')" class="form-control st-input w-100">`;
+            } else if (currentQuiz.type === "textarea") {
