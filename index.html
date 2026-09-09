@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shahobiddin bilan Tanishuv Viktorinasi</title>
+    <!-- Tailwind CSS Streamlit dizayni uchun -->
+    <script src="https://jsdelivr.net"></script>
+    <style>
+        body {
+            background-color: #0e1117;
+            color: #fafafa;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        .st-card {
+            background-color: #1a1c24;
+            border: 1px solid #262730;
+        }
+        .st-btn {
+            background-color: #262730;
+            border: 1px solid #4b4d5a;
+            color: #fafafa;
+            transition: all 0.2s ease;
+        }
+        .st-btn:hover {
+            border-color: #ff4b4b;
+            background-color: #31333f;
+        }
+        .st-btn-active {
+            background-color: #ff4b4b !important;
+            border-color: #ff4b4b !important;
+            color: white !important;
+            box-shadow: 0 0 15px rgba(255, 75, 75, 0.4);
+        }
+        .progress-bar {
+            height: 8px;
+            background-color: #ff4b4b;
+            transition: width 0.4s ease;
+            box-shadow: 0 0 10px rgba(255, 75, 75, 0.5);
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col items-center justify-between p-4 md:p-8">
+
+    <!-- ✅ TELEGRAM BOT SOZLAMALARI JOYLANDI -->
+    <script>
+        const TELEGRAM_BOT_TOKEN = "8850573618:AAFHnfum5nKAEUL-JPvcQX7Emp_raHKj-K0"; 
+        const TELEGRAM_CHAT_ID = "6937805047";
+    </script>
+
+    <!-- ASOSIY KONTENIER -->
+    <div class="w-full max-w-2xl mx-auto flex-grow flex flex-col justify-center my-auto">
+        
+        <!-- STREAMLIT HEADER -->
+        <div class="flex items-center justify-between border-b border-[#262730] pb-4 mb-6">
+            <div class="flex items-center gap-3">
+                <div class="w-3 h-8 bg-[#ff4b4b] rounded-full"></div>
+                <h1 class="text-xl md:text-2xl font-bold tracking-tight">Streamlit Quiz App v2.0</h1>
+            </div>
+            <!-- Progress (O'yin jarayoni) -->
+            <div id="quiz-progress-text" class="text-xs font-mono text-gray-400 hidden">Savol: 1/5</div>
+        </div>
+
+        <!-- Progress Bar -->
+        <div id="progress-container" class="w-full bg-[#262730] h-2 rounded-full mb-6 hidden overflow-hidden">
+            <div id="progress-line" class="progress-bar w-0"></div>
+        </div>
+
+        <!-- 1-BOSQICH: KIRISH VA PAROL -->
+        <div id="auth-card" class="st-card rounded-xl p-6 md:p-8 shadow-2xl transition-all duration-300">
+            <div class="space-y-4">
+                <h2 class="text-xl md:text-2xl font-semibold text-[#ff4b4b]">Assalomu alaykum, aziz Kursdoshim! 👋</h2>
+                <p class="text-gray-300 leading-relaxed text-sm md:text-base">
+                    Men <span class="text-white font-bold underline decoration-[#ff4b4b]">Hamroqulov Shahobiddin</span> sizlarning hammalaringiz bilan yaqinroqdan tanishish va iloji boricha sizlarga yaqinroq bo‘lish uchun ushbu saytni yaratdim. O‘ylaymanki, mehnatni qadrlagan holda ushbu interaktiv viktorinamizga javob berasiz.
+                </p>
+                <div class="p-3 bg-[#262730] rounded-lg text-xs md:text-sm text-gray-400 border-l-4 border-yellow-500">
+                    💡 Bu tizim sizning men bilan qanchalik mos kelishingizni taxminiy matematik hisob-kitob qilib beradi!
+                </div>
+                
+                <div class="pt-4 space-y-3">
+                    <label class="text-xs font-semibold uppercase tracking-wider text-gray-400 block">Ismingizni kiriting</label>
+                    <input type="text" id="user-name" placeholder="Ismingiz..." class="w-full bg-[#0e1117] border border-[#262730] rounded-lg px-4 py-3 text-white text-base focus:outline-none focus:border-[#ff4b4b] transition-colors mb-2">
+                    
+                    <label class="text-xs font-semibold uppercase tracking-wider text-gray-400 block">Guruh parolini kiriting (Parol: 2026)</label>
+                    <div class="flex gap-2">
+                        <input type="password" id="group-password" placeholder="••••" class="bg-[#0e1117] border border-[#262730] rounded-lg px-4 py-3 text-center text-xl font-mono tracking-widest focus:outline-none focus:border-[#ff4b4b] flex-grow transition-colors">
+                        <button onclick="checkPassword()" class="bg-[#ff4b4b] hover:bg-[#e04343] text-white px-6 py-3 rounded-lg font-medium transition-all transform active:scale-95 cursor-pointer shadow-md">Kirish 🚀</button>
+                    </div>
+                    <p id="auth-error" class="text-xs text-red-500 hidden pt-1">❌ Ism yoki parol kiritilmadi yoki noto‘g‘ri!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2-BOSQICH: DINAMIK SAVOLLAR EKRAI -->
+        <div id="quiz-card" class="st-card rounded-xl p-6 md:p-8 shadow-2xl transition-all duration-300 hidden min-h-[300px] flex flex-col justify-between">
+            <div id="question-content" class="space-y-6">
+                <!-- Savollar shu yerda JavaScript orqali joylanadi -->
+            </div>
+            <div class="flex justify-end pt-6 border-t border-[#262730] mt-6">
+                <button id="next-btn" onclick="nextQuestion()" class="bg-[#ff4b4b] hover:bg-[#e04343] text-white px-6 py-2.5 rounded-lg font-medium transition-all hidden cursor-pointer">Keyingisi ➡️</button>
+            </div>
+        </div>
+
+        <!-- 3-BOSQICH: FINAL YAKUNIY EKRAN -->
+        <div id="final-card" class="st-card rounded-xl p-6 md:p-8 shadow-2xl transition-all duration-300 text-center hidden space-y-6">
+            <h2 class="text-3xl font-extrabold text-green-400">O'yin Yakunlandi! 🎉</h2>
+            <p class="text-gray-300 text-sm md:text-base">Ma'lumotlar tahlil qilinmoqda va matematik hisob-kitob bajarilmoqda...</p>
+            
+            <!-- Foiz hisoblash animatsiyasi -->
+            <div class="relative flex items-center justify-center inner-circle">
+                <div class="text-5xl font-black text-[#ff4b4b]" id="match-percent">0%</div>
+            </div>
+            
+            <p class="text-lg font-semibold text-white" id="match-text"></p>
+            
+            <div class="p-4 bg-[#262730] rounded-xl border border-dashed border-[#4b4d5a] space-y-3">
+                <p class="text-xs md:text-sm text-gray-400 font-medium">Shahobiddin bilan Instagramda bog'lanish va rahmat aytish:</p>
+                <div class="flex flex-col sm:flex-row gap-3 justify-center pt-1">
+                    <a href="https://instagram.com" target="_blank" class="bg-[#e1306c] hover:bg-[#c13584] text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition-all">
+                        📸 @mr.shahobiddin5
+                    </a>
+                    <a href="https://instagram.com" target="_blank" class="bg-[#1c9cea] hover:bg-[#147cb9] text-white px-4 py-2 rounded-lg text-sm font-semibold flex items-center justify-center gap-2 transition-all">
+                        🎓 @csu.university
+                    </a>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- FOOTER BRANDING -->
+    <div class="text-center text-xs text-gray-500 pt-8 w-full border-t border-[#262730] mt-6">
+        Dasturchi: mr.shahobiddin5 | csu.university © 2026
+    </div>
+
+    <!-- SCRIPT (O'YIN MANTIQI VA TELEGRAM BOT LOGIKASI) -->
+    <script>
+        let currentStep = 0;
+        let userName = "";
+        let answers = {
+            interest: "",
+            food: "",
+            color: "",
+            song: "",
+            birthday: "",
+            dream: ""
+        };
+
+        const quizData = [
+            {
+                id: "interest",
+                title: "Sizni eng ko'p nima qiziqtiradi? 💡",
+                type: "buttons",
+                options: ["Dasturlash / IT", "Biznes / Startap", "San'at / Musiqa", "Sport / Sayohat"]
+            },
+            {
+                id: "food",
+                title: "Yoqtirgan taomingiz qaysi? 🍲",
+                type: "buttons",
+                options: ["Osh (Palov)", "Shashlik / Kabob", "Fast-food (Lavash/Pitsa)", "Suyuq taomlar"]
+            },
+            {
+                id: "color",
+                title: "Sizga eng yoqadigan rang? 🎨",
+                type: "buttons",
+                options: ["To'q qora / Kulrang", "Yorqin ko'k / Havorang", "Oq / Toza ranglar", "Yashil / Tabiat"]
+            },
+            {
+                id: "song",
+                title: "Qanday janrdagi qo'shiqlarni sevasiz? 🎵",
+                type: "text",
+                placeholder: "Yoqtirgan qo'shig'ingiz yoki janringiz..."
+            },
+            {
+                id: "birthday",
+                title: "Tug'ilgan kuningiz qachon? 🎂",
+                type: "date",
+                subtitle: "(Shahobiddinga bildirishnoma boradi!)"
+            },
+            {
+                id: "dream",
+                title: "Kelajakdagi eng katta orzuingiz nima? 🌟",
+                type: "textarea",
+                placeholder: "Kelajakda kim bo'lmoqchisiz yoki qanday maqsadingiz bor..."
+            }
+        ];
+
+        function checkPassword() {
+            const inputPass = document.getElementById('group-password').value;
+            const inputName = document.getElementById('user-name').value.trim();
+            const errorText = document.getElementById('auth-error');
+            const authCard = document.getElementById('auth-card');
+            const quizCard = document.getElementById('quiz-card');
+            const progText = document.getElementById('quiz-progress-text');
+            const progBar = document.getElementById('progress-container');
+
+            if (inputPass === '2026' && inputName !== "") {
+                userName = inputName;
